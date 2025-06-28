@@ -4,8 +4,9 @@ public class AirConditioner {
     private boolean isOn;
     private int temperature;
 
-    public AirConditioner(int temperature) {
-        this.temperature = temperature;
+    public AirConditioner() {
+        int DEFAULT_TEMPERATURE = 24;
+        temperature = DEFAULT_TEMPERATURE;
     }
 
     public void toggleSwitch() {
@@ -17,18 +18,18 @@ public class AirConditioner {
     }
 
     public int getTemperature() {
-        return this.temperature;
+        return temperature;
     }
 
     public void increaseTemperature(int increment) {
         final int maxTemperature = 30;
-        boolean temperatureIsValid = getTemperature() + increment <= maxTemperature;
+        boolean temperatureIsValid = temperature + increment <= maxTemperature;
         temperature = temperatureIsValid ? temperature + increment : maxTemperature;
     }
 
     public void decreaseTemperature(int decrement) {
         final int minTemperature = 16;
-        boolean temperatureIsValid = getTemperature() - decrement  >= minTemperature;
-        this.temperature = temperatureIsValid ? getTemperature() - decrement : minTemperature;
+        boolean temperatureIsValid = temperature - decrement  >= minTemperature;
+        temperature = temperatureIsValid ? getTemperature() - decrement : minTemperature;
     }
 }

@@ -12,8 +12,7 @@ public class AirConditionerTest {
 
     @BeforeEach
     public void setUp() {
-        final int defaultTemperature = 24;
-        samsung = new AirConditioner(defaultTemperature);
+        samsung = new AirConditioner();
         james = new Person(samsung);
     }
 

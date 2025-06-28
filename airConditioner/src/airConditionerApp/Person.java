@@ -1,7 +1,7 @@
 package airConditionerApp;
 
 public class Person {
-    private final AirConditioner airConditioner;
+    private AirConditioner airConditioner;
 
     public Person(AirConditioner airConditioner) {
         this.airConditioner = airConditioner;
