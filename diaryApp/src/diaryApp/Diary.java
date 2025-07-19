@@ -1,8 +1,6 @@
 package diaryApp;
 
-import exceptions.EmptyDiaryException;
-import exceptions.InvalidIdException;
-import exceptions.InvalidPasswordException;
+import exceptions.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,24 +33,27 @@ public class Diary {
     }
 
     public void createEntry(String title, String body) {
+        validateEntryIsUnlocked();
         entries.add(new Entry(++usersId, title, body));
     }
 
     public Entry findEntryById(int id) {
+        validateEntryIsUnlocked();
         validateEntryNotEmpty();
-        for (Entry entry : entries) {
-            boolean entryFound = id == entry.getId();
-            if (entryFound) return entry;
-        }
-        throw new InvalidIdException("Entry with id " + id + " not found");
+        return entries.stream()
+                .filter(entry -> entry.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new InvalidIdException("Entry with id " + id + " not found"));
     }
 
     public void deleteEntry(int id) {
+        validateEntryIsUnlocked();
         validateEntryNotEmpty();
         entries.removeIf(entry -> entry.getId() == id);
     }
 
     public void updateEntry(int id, String newTitle, String newBody) {
+        validateEntryIsUnlocked();
         validateEntryNotEmpty();
         Entry entry = findEntryById(id);
         entry.setTitle(newTitle);
@@ -60,11 +61,19 @@ public class Diary {
     }
 
     public String getName() {
+        validateEntryIsUnlocked();
         return username;
     }
 
     public String getPassword() {
+        validateEntryIsUnlocked();
         return password;
+    }
+
+    private void validateEntryIsUnlocked() {
+        if (isLocked) {
+            throw new RuntimeException("The entry is locked");
+        }
     }
 
     private void validatePassword(String userPassword) {

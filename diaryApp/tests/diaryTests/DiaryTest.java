@@ -43,6 +43,7 @@ public class DiaryTest {
 
     @Test
     public void testThatAnEntryExists_afterEntryIsCreated() {
+        diary.unlockDiary("password");
         assertThrows(EmptyDiaryException.class, () -> diary.findEntryById(1001));
         diary.createEntry("title", "body");
         assertDoesNotThrow(() -> diary.findEntryById(1001));
@@ -51,6 +52,7 @@ public class DiaryTest {
 
     @Test
     public void testThatExceptionIsThrown_whenEntryIdNotFound() {
+        diary.unlockDiary("password");
         diary.createEntry("title", "body");
         assertNotNull(diary.findEntryById(1001));
         assertThrows(InvalidIdException.class, () -> diary.findEntryById(1002));
@@ -58,6 +60,7 @@ public class DiaryTest {
 
     @Test
     public void testSearchingForDeletedEntry_throwsException() {
+        diary.unlockDiary("password");
         assertThrows(EmptyDiaryException.class, () -> diary.findEntryById(1001));
         diary.createEntry("title", "body");
         diary.createEntry("title2", "body2");
@@ -65,12 +68,14 @@ public class DiaryTest {
         assertDoesNotThrow(() -> diary.findEntryById(1001));
 
         diary.deleteEntry(1001);
+//        diary.deleteEntry(1002);
 
         assertThrows(InvalidIdException.class, () -> diary.findEntryById(1001));
     }
 
     @Test
     public void testThatRightEntry_isReturnedAfterFindEntryById_byCheckingEntryTitle() {
+        diary.unlockDiary("password");
         assertThrows(EmptyDiaryException.class, () -> diary.findEntryById(1001));
         diary.createEntry("title", "body");
         assertDoesNotThrow(() -> diary.findEntryById(1001));
@@ -79,6 +84,7 @@ public class DiaryTest {
 
     @Test
     public void testThatBodyIsModified_whenEntryIsUpdated() {
+        diary.unlockDiary("password");
         diary.createEntry("title", "body");
         assertEquals("body", diary.findEntryById(1001).getBody());
 
@@ -90,6 +96,7 @@ public class DiaryTest {
 
     @Test
     public void testThatExceptionIsThrown_whenUpdatingWithNonExistentId() {
+        diary.unlockDiary("password");
         diary.createEntry("title", "body");
         assertEquals("body", diary.findEntryById(1001).getBody());
 
@@ -100,6 +107,7 @@ public class DiaryTest {
 
     @Test
     public void testThatDateOfEntryCreationIsCorrect() {
+        diary.unlockDiary("password");
         diary.createEntry("title", "body");
 
         LocalDateTime date = LocalDateTime.now();
